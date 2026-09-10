@@ -1,32 +1,33 @@
 #include "push_swap.h"
 
-t_node    *new_node(int number)
+t_node    *ft_llstnew(int number)
 {
-    t_node    *new;
+	t_node    *node;
 
-    new = malloc(sizeof(t_node));
-    if (!new)
-        return (NULL);
-    new->number = number;
-    new->next = NULL;
-    new->prev = NULL;
-    return (new);
+	node = malloc(sizeof(t_node));
+	if (!node)
+		return (NULL);
+	node->number = number;
+	node->next = NULL;
+	node->prev = NULL;
+	return (node);
 }
 
-void    node_add_back(t_node **node, t_node    *new)
+void    ft_llstaddback(t_node **head, t_node *node)
 {
-    t_node    *temp;
+	t_node    *temp;
 
-    if (!node || !new)
-        return ;
-    if (!*(node))
-    {
-        *node = new;
-        return ;
-    }
-    temp = *node;
-    while (temp->next != NULL)
-        temp = temp->next;
-    temp->next = new;
-    new->prev = temp;
+	if (!head || !node)
+		return ;
+	if (!*(head))
+	{
+		*head = node;
+		return ;
+	}
+	temp = *head;
+	while (temp->next != NULL)
+		temp = temp->next;
+	temp->next = node;
+	node->prev = temp;
 }
+

@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lanusri- <a@b.c> */
+/*   By: lanusri- <lanusri-@student.42kl.edu.my> */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/30 00:00:00 by lanusri-          #+#    #+#             */
 /*   Updated: 2026/08/30 00:00:00 by lanusri-         ###   ########.fr       */
