@@ -31,3 +31,16 @@ void    ft_llstaddback(t_node **head, t_node *node)
 	node->prev = temp;
 }
 
+void	ft_llstclear(t_node **head)
+{
+	t_node	*next;
+
+	if (!head)
+		return ;
+	while (*head)
+	{
+		next = (*head)->next;
+		free(*head);
+		*head = next;
+	}
+}
