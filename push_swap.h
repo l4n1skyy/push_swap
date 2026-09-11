@@ -33,6 +33,7 @@ void	sa(t_node **a);
 void	sb(t_node **b);
 void	ss(t_node **a, t_node **b);
 void	rra(t_node **a);
+void	rrb(t_node **b);
 void	rrr(t_node **a, t_node **b);
 
 /* other utils */
