@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   reverse_rotate.c                                   :+:      :+:    :+:   */
+/*   op_reverse_rotate.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jia-xcho <jia-xcho@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/11 15:00:32 by jia-xcho          #+#    #+#             */
-/*   Updated: 2026/09/11 15:15:08 by jia-xcho         ###   ########.fr       */
+/*   Updated: 2026/09/12 00:22:52 by jia-xcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,16 +45,19 @@ static void	reverse_rotate(t_node **head)
 void	rra(t_node **a)
 {
 	reverse_rotate(a);
+	printf("rra\n");
 }
 
 void	rrb(t_node **b)
 {
 	reverse_rotate(b);
+	printf("rrb\n");
 }
 
 void	rrr(t_node **a, t_node **b)
 {
 	reverse_rotate(a);
 	reverse_rotate(b);
+	printf("rrr\n");
 }
 

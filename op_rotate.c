@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   rotate.c                                           :+:      :+:    :+:   */
+/*   op_rotate.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jia-xcho <jia-xcho@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/10 22:49:11 by jia-xcho          #+#    #+#             */
-/*   Updated: 2026/09/11 15:03:51 by jia-xcho         ###   ########.fr       */
+/*   Updated: 2026/09/12 00:22:46 by jia-xcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,18 @@ static void	rotate(t_node **head)
 void	ra(t_node **a)
 {
 	rotate(a);
+	printf("ra\n");
 }
 
 void	rb(t_node **b)
 {
 	rotate(b);
+	printf("rb\n");
 }
 
 void	rr(t_node **a, t_node **b)
 {
 	rotate(a);
 	rotate(b);
+	printf("rr");
 }

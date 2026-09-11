@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   swap.c                                             :+:      :+:    :+:   */
+/*   op_swap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jia-xcho <jia-xcho@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/10 14:32:30 by jia-xcho          #+#    #+#             */
-/*   Updated: 2026/09/11 14:59:01 by jia-xcho         ###   ########.fr       */
+/*   Updated: 2026/09/12 00:22:16 by jia-xcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,16 +44,19 @@ static void	swap_top(t_node **head)
 void	sa(t_node **a)
 {
 	swap_top(a);
+	printf("sa\n")
 }
 
 void	sb(t_node **b)
 {
 	swap_top(b);
+	printf("sb\n")
 }
 
 void	ss(t_node **a, t_node **b)
 {
 	swap_top(a);
 	swap_top(b);
+	printf("ss\n");
 }
 

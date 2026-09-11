@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push.c                                             :+:      :+:    :+:   */
+/*   op_push.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jia-xcho <jia-xcho@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/10 15:27:25 by jia-xcho          #+#    #+#             */
-/*   Updated: 2026/09/11 14:59:03 by jia-xcho         ###   ########.fr       */
+/*   Updated: 2026/09/12 00:20:28 by jia-xcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,13 @@ static void	push_top(t_node **src, t_node **dst)
 void	pa(t_node **b, t_node **a)
 {
 	push_top(b, a);
+	printf("pa\n");
 }
 
 void	pb(t_node **a, t_node **b)
 {
 	push_top(a, b);
+	printf("pb\n");
 }
 
 /*
