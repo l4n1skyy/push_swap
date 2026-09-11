@@ -44,3 +44,14 @@ void	ft_llstclear(t_node **head)
 		*head = next;
 	}
 }
+
+int	ft_llstsize(t_node *head)
+{
+	int size = 0;
+	while (head)
+	{
+		head = head->next;
+		size++;
+	}
+	return (size);
+}
