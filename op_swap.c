@@ -12,7 +12,7 @@
 
 #include "push_swap.h"
 
-void	swap_top(t_node **head)
+static void	swap_top(t_node **head)
 {
 	t_node	*first;
 	t_node	*second;
@@ -56,72 +56,4 @@ void	ss(t_node **a, t_node **b)
 	swap_top(a);
 	swap_top(b);
 }
-/*
-#include <stdio.h>
-int main(void)
-{
-	t_node	*a;
-	t_node  *b;
-	t_node	*new;
-	t_node	*temp;
 
-	a = NULL;
-	b = NULL;
-
-	new = ft_llstnew(1);
-	ft_llstaddback(&a, new);
-	new = ft_llstnew(2);
-	ft_llstaddback(&a, new);
-	new = ft_llstnew(3);
-	ft_llstaddback(&a, new);
-
-	new = ft_llstnew(7);
-	ft_llstaddback(&b, new);
-	new = ft_llstnew(8);
-	ft_llstaddback(&b, new);
-	new = ft_llstnew(9);
-	ft_llstaddback(&b, new);
-
-	temp = a;
-	while (temp)
-	{
-		printf("number A: %d\n", temp->number);
-		temp = temp->next;
-	}
-	temp = b;
-	while (temp)
-	{
-		printf("number B: %d\n", temp->number);
-		temp = temp->next;
-	}
-	printf("sa\n");
-	sa(&a);
-	temp = a;
-	while (temp)
-	{
-		printf("number: %d\n", temp->number);
-		temp = temp->next;
-	}
-	sb(&b);
-	temp = b;
-	while (temp)
-	{
-		printf("number: %d\n", temp->number);
-		temp = temp->next;
-	}
-	printf("ss\n");
-	ss(&a, &b);
-	temp = a;
-	while (temp)
-	{
-		printf("number: %d\n", temp->number);
-		temp = temp->next;
-	}
-	temp = b;
-	while (temp)
-	{
-		printf("number: %d\n", temp->number);
-		temp = temp->next;
-	}
-}
-*/

@@ -12,7 +12,7 @@
 
 #include "push_swap.h"
 
-void	push_top(t_node **src, t_node **dst)
+static void	push_top(t_node **src, t_node **dst)
 {
 	t_node	*node;
 	t_node	*new_src;

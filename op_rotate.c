@@ -12,7 +12,7 @@
 
 #include "push_swap.h"
 
-void	rotate(t_node **head)
+static void	rotate(t_node **head)
 {
 	t_node	*first;
 	t_node	*last;
@@ -55,37 +55,4 @@ void	rr(t_node **a, t_node **b)
 {
 	rotate(a);
 	rotate(b);
-}
-
-#include <stdio.h>
-int main(void)
-{
-	t_node	*a;
-	t_node	*new;
-	t_node	*temp;
-
-	a = NULL;
-
-	new = ft_llstnew(1);
-	ft_llstaddback(&a, new);
-	new = ft_llstnew(2);
-	ft_llstaddback(&a, new);
-	// new = ft_llstnew(3);
-	// ft_llstaddback(&a, new);
-
-	temp = a;
-	printf("Before:\n");
-	while (temp)
-	{
-		printf("A: %d\n", temp->number);
-		temp = temp->next;
-	}
-	printf("ra\n");
-	ra(&a);
-	temp = a;
-	while (temp)
-	{
-		printf("A:: %d\n", temp->number);
-		temp = temp->next;
-	}
 }
