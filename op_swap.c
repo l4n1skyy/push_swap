@@ -20,6 +20,7 @@ static void	swap_top(t_node **head)
 
 	if (!head || !*head || !(*head)->next)
 		return ;
+	
 	//save nodes first
 	first = *head;
 	second = (*head)->next;
