@@ -1,10 +1,11 @@
 #include "libft/libft.h"
 #include "push_swap.h"
 
-static int check_duplicate(t_node *head);
-static long ft_atoi_long(char *s);
+static int	check_duplicate(t_node *head);
+static long	ft_atoi_long(char *s);
+static void	assign_ranks(t_node *head);
 
-t_node *create_struct(char **argv)
+t_node	*create_struct(char **argv)
 {
 	t_node	*head;
 	t_node	*node;
@@ -19,7 +20,6 @@ t_node *create_struct(char **argv)
 		read = *argv;
 		if (*read == '\0')
 			return (handle_fail(&head));
-
 		// check digit/sign
 		read = *argv;
 		if (*read == '-' || *read == '+')
@@ -28,33 +28,29 @@ t_node *create_struct(char **argv)
 			read++;
 		if (*read || !ft_isdigit(*(read - 1)))
 			return (handle_fail(&head));
-
 		// check range
 		read = *argv;
 		number = ft_atoi_long(*argv);
 		if (number < -2147483648 || number > 2147483647)
 			return (handle_fail(&head));
-
 		// create node
 		node = ft_llstnew(number);
 		if (!node)
 			return (handle_fail(&head));
-
 		// add node to list
 		ft_llstaddback(&head, node);
-
 		// check duplicate
 		if (check_duplicate(head))
 			return (handle_fail(&head));
-
 		argv++;
 	}
+	assign_ranks(head);
 	return (head);
 }
 
-static int check_duplicate(t_node *head)
+static int	check_duplicate(t_node *head)
 {
-	t_node *rest;
+	t_node	*rest;
 
 	while (head && head->next)
 	{
@@ -70,7 +66,7 @@ static int check_duplicate(t_node *head)
 	return (0);
 }
 
-static long ft_atoi_long(char *s)
+static long	ft_atoi_long(char *s)
 {
 	int		sign;
 	long	n;
@@ -91,4 +87,27 @@ static long ft_atoi_long(char *s)
 		s++;
 	}
 	return ((n * sign));
+}
+
+static void	assign_ranks(t_node *head)
+{
+	t_node	*outer;
+	t_node	*inner;
+	int		counter;
+
+	outer = head;
+	inner = head;
+	while (outer)
+	{
+		counter = 0;
+		inner = head;
+		while (inner)
+		{
+			if (outer->number > inner->number)
+				counter++;
+			inner = inner->next;
+		}
+		outer->rank = counter;
+		outer = outer->next;
+	}
 }
