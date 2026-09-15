@@ -6,7 +6,7 @@
 /*   By: jia-xcho <jia-xcho@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/10 14:32:30 by jia-xcho          #+#    #+#             */
-/*   Updated: 2026/09/12 00:22:16 by jia-xcho         ###   ########.fr       */
+/*   Updated: 2026/09/15 14:56:21 by jia-xcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,19 +44,19 @@ static void	swap_top(t_node **head)
 void	sa(t_node **a)
 {
 	swap_top(a);
-	printf("sa\n")
+	write(1, "sa\n", 3);
 }
 
 void	sb(t_node **b)
 {
 	swap_top(b);
-	printf("sb\n")
+	write(1, "sb\n", 3);
 }
 
 void	ss(t_node **a, t_node **b)
 {
 	swap_top(a);
 	swap_top(b);
-	printf("ss\n");
+	write(1, "ss\n", 3);
 }
 
