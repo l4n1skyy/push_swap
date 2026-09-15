@@ -14,9 +14,8 @@ typedef struct s_node
 	struct s_node	*prev;
 }	t_node;
 
-/* main functions */
-t_node *create_struct(char **argv);
-float	compute_disorder(t_node *head);
+/* algorithms */
+void	radix_sort(t_node **head);
 
 /* doubly linked list functions */
 t_node	*ft_llstnew(int number);
@@ -38,6 +37,8 @@ void	rrb(t_node **b);
 void	rrr(t_node **a, t_node **b);
 
 /* other utils */
+t_node *create_struct(char **argv);
 t_node *handle_fail(t_node **head);
+float	compute_disorder(t_node *head);
 
 #endif
