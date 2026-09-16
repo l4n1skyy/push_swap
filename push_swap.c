@@ -25,7 +25,7 @@ int main(int argc, char **argv)
 	*/
 	return (0);
 }
-
+*/
 t_node *handle_fail(t_node **head)
 {
 	ft_llstclear(head);

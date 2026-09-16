@@ -3,6 +3,7 @@
 
 # include <unistd.h>
 # include <stdlib.h>
+# include <stdio.h>
 # include "libft/libft.h"
 
 /* struct */
@@ -40,5 +41,8 @@ void	rrr(t_node **a, t_node **b);
 t_node *create_struct(char **argv);
 t_node *handle_fail(t_node **head);
 float	compute_disorder(t_node *head);
+
+/*selection sort*/
+t_node	*selection_sort(t_node *a, t_node *b);
 
 #endif
