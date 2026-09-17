@@ -6,7 +6,7 @@
 /*   By: jia-xcho <jia-xcho@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/11 15:50:42 by jia-xcho          #+#    #+#             */
-/*   Updated: 2026/09/17 14:30:03 by jia-xcho         ###   ########.fr       */
+/*   Updated: 2026/09/17 16:48:25 by jia-xcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,7 +171,7 @@ static void	push_to_a(t_node **a, t_node **b, int size, t_bench *bench)
 	}
 }
 
-void	selection_sort(t_node **head, t_bench *bench)
+void	minmax_selection_sort(t_node **head, t_bench *bench)
 {
 	t_node	*a;
 	t_node	*b;
@@ -205,7 +205,7 @@ int	main(int argc, char **argv)
 
 	b = NULL;
 
-	selection_sort(&a);
+	minmax_selection_sort(&a);
 
 	// printf("A: ");
 	// tmp = a;
