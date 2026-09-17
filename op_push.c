@@ -6,7 +6,7 @@
 /*   By: jia-xcho <jia-xcho@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/10 15:27:25 by jia-xcho          #+#    #+#             */
-/*   Updated: 2026/09/15 14:58:17 by jia-xcho         ###   ########.fr       */
+/*   Updated: 2026/09/17 14:14:11 by jia-xcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,6 @@ static void	push_top(t_node **src, t_node **dst)
 	t_node	*node;
 	t_node	*new_src;
 	t_node	*old_dst;
-
-	if (!src || !dst || !*src)
-		return ;
 
 	//save current top of src
 	node = *src;
@@ -44,15 +41,23 @@ static void	push_top(t_node **src, t_node **dst)
 	*dst = node;
 }
 
-void	pa(t_node **b, t_node **a)
+void	pa(t_node **b, t_node **a, t_bench *bench)
 {
+	if (!b || !a || !*b)
+		return ;
 	push_top(b, a);
+	if (bench)
+		bench->pa++;
 	write(1,"pa\n", 3);
 }
 
-void	pb(t_node **a, t_node **b)
+void	pb(t_node **a, t_node **b, t_bench *bench)
 {
+	if(!a || !b || !*a)
+		return ;
 	push_top(a, b);
+	if (bench)
+		bench->pb++;
 	write(1, "pb\n", 3);
 }
 

@@ -6,7 +6,7 @@
 /*   By: jia-xcho <jia-xcho@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/10 14:32:30 by jia-xcho          #+#    #+#             */
-/*   Updated: 2026/09/15 14:56:21 by jia-xcho         ###   ########.fr       */
+/*   Updated: 2026/09/17 14:14:14 by jia-xcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,6 @@ static void	swap_top(t_node **head)
 	t_node	*second;
 	t_node	*temp;
 
-	if (!head || !*head || !(*head)->next)
-		return ;
-	
 	//save nodes first
 	first = *head;
 	second = (*head)->next;
@@ -42,22 +39,45 @@ static void	swap_top(t_node **head)
 	*head = second;
 }
 
-void	sa(t_node **a)
+void	sa(t_node **a, t_bench *bench)
 {
+	if (!a || !*a || !(*a)->next)
+		return ;
 	swap_top(a);
+	if (bench)
+		bench->sa++;
 	write(1, "sa\n", 3);
 }
 
-void	sb(t_node **b)
+void	sb(t_node **b, t_bench *bench)
 {
+	if (!b || !*b || !(*b)->next)
+		return ;
 	swap_top(b);
+	if (bench)
+		bench->sb++;
 	write(1, "sb\n", 3);
 }
 
-void	ss(t_node **a, t_node **b)
+void	ss(t_node **a, t_node **b, t_bench *bench)
 {
-	swap_top(a);
-	swap_top(b);
+	int	executed;
+
+	executed = 0;
+	if (a && *a && (*a)->next)
+	{
+		swap_top(a);
+		executed = 1;
+	}
+	if (b && *b && (*b)->next)
+	{
+		swap_top(b);
+		executed = 1;
+	}
+	if (!executed)
+		return ;
+	if (bench)
+		bench->ss++;
 	write(1, "ss\n", 3);
 }
 
