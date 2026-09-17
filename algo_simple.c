@@ -6,7 +6,7 @@
 /*   By: jia-xcho <jia-xcho@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/11 15:50:42 by jia-xcho          #+#    #+#             */
-/*   Updated: 2026/09/16 23:14:41 by jia-xcho         ###   ########.fr       */
+/*   Updated: 2026/09/17 14:30:03 by jia-xcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ static int	find_cheapest_extreme(t_node *head)
 		return (MIN);
 	return (MAX);
 }
-static void	reposition_extreme(t_node **head, int type)
+static void	reposition_extreme(t_node **head, int type, t_bench *bench)
 {
 	int	size;
 	int	value;
@@ -106,17 +106,17 @@ static void	reposition_extreme(t_node **head, int type)
 	if (position <= size / 2)
 	{
 		while (position-- > 0)
-			ra(head);
+			ra(head, bench);
 	}
 	else
 	{
 		position = size - position;
 		while (position-- > 0)
-			rra(head);
+			rra(head, bench);
 	}
 }
 
-static void	rotate_b_for_max(t_node **b)
+static void	rotate_b_for_max(t_node **b, t_bench *bench)
 {
 	int	max;
 	int	position;
@@ -128,17 +128,17 @@ static void	rotate_b_for_max(t_node **b)
 	if (position <= size / 2)
 	{
 		while (position-- > 0)
-			rb(b);
+			rb(b, bench);
 	}
 	else
 	{
 		position = size - position;
 		while (position-- > 0)
-			rrb(b);
+			rrb(b, bench);
 	}
 }
 
-static void	push_to_b(t_node **a, t_node **b, int size)
+static void	push_to_b(t_node **a, t_node **b, int size, t_bench *bench)
 {
 	int	i;
 	int	current_type;
@@ -149,29 +149,29 @@ static void	push_to_b(t_node **a, t_node **b, int size)
 	while (i < size)
 	{
 		current_type = find_cheapest_extreme(*a);
-		reposition_extreme(a, current_type);
+		reposition_extreme(a, current_type, bench);
 		if (previous_type == MAX)
-			rb(b);
-		pb(a, b);
+			rb(b, bench);
+		pb(a, b, bench);
 		previous_type = current_type;
 		i++;
 	}
 }
 
-static void	push_to_a(t_node **a, t_node **b, int size)
+static void	push_to_a(t_node **a, t_node **b, int size, t_bench *bench)
 {
 	int	i;
 
-	rotate_b_for_max(b);
+	rotate_b_for_max(b, bench);
 	i = 0;
 	while (i < size)
 	{
-		pa(b, a);
+		pa(b, a, bench);
 		i++;
 	}
 }
 
-void	selection_sort(t_node **head)
+void	selection_sort(t_node **head, t_bench *bench)
 {
 	t_node	*a;
 	t_node	*b;
@@ -180,8 +180,8 @@ void	selection_sort(t_node **head)
 	a = *head;
 	b = NULL;
 	size = ft_llstsize(a);
-	push_to_b(&a, &b, size);
-	push_to_a(&a, &b, size);
+	push_to_b(&a, &b, size, bench);
+	push_to_a(&a, &b, size, bench);
 	*head = a;
 }
 
