@@ -69,7 +69,7 @@ float	compute_disorder(t_node *head);
 /* parsing */
 int		parse_strategy(char *arg);
 char	**parse_options(char **argv, int *strategy, int *benchmark);
-void	select_strategy(t_node **head, int strategy, float disorder, t_bench *bench);
+int		select_strategy(t_node **head, int strategy, float disorder, t_bench *bench);
 int		is_valid_number(char *str);
 int		check_duplicate(t_node *head);
 int		is_in_range(char *str);
