@@ -39,7 +39,15 @@ typedef struct s_bench
 
 /* algorithms */
 void	radix_sort(t_node **head, t_bench *bench);
-void	minmax_selection_sort(t_node **head, t_bench *bench);
+
+/* simple algorithm */
+int	find_min(t_node *head);
+int	find_max(t_node *head);
+int	find_position(t_node *head, int value);
+int	find_cheapest_extreme(t_node *head);
+void	reposition_extreme(t_node **head, int type, t_bench *bench);
+void	rotate_b_for_max(t_node **b, t_bench *bench);
+void	minmax_sort(t_node **head, t_bench *bench);
 
 
 /* doubly linked list functions */

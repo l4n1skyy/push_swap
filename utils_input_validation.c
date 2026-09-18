@@ -20,7 +20,6 @@ static void	assign_ranks(t_node *head)
 	int		counter;
 
 	outer = head;
-	inner = head;
 	while (outer)
 	{
 		counter = 0;

@@ -6,7 +6,7 @@
 /*   By: jia-xcho <jia-xcho@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/15 16:48:29 by jia-xcho          #+#    #+#             */
-/*   Updated: 2026/09/16 23:14:44 by jia-xcho         ###   ########.fr       */
+/*   Updated: 2026/09/17 18:01:15 by jia-xcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	**parse_options(char **argv, int *strategy, int *benchmark)
 	argv++;
 	while (*argv && (*argv)[0] == '-' && (*argv)[1] == '-')
 	{
-		if (ft_strncmp(*argv, "--benchmark", 11) == 0)
+		if (ft_strncmp(*argv, "--bench", 8) == 0)
 		{
 			if (*benchmark)
 				return (NULL);
@@ -54,30 +54,43 @@ char	**parse_options(char **argv, int *strategy, int *benchmark)
 	}
 	return (argv);
 }
-void	adaptive_sort(t_node **head)
-{
-	float	disorder;
-	int		strategy;
 
-	disorder = compute_disorder(*head);
+int	adaptive_sort(t_node **head, float disorder, t_bench *bench)
+{
 	if (disorder < 0.2)
-		strategy = STRATEGY_SIMPLE;
-	else if (disorder >= 0.5)
-		strategy = STRATEGY_COMPLEX;
+	{
+		minmax_sort(head, bench);
+		return (STRATEGY_SIMPLE);
+	}
 	else
-		strategy = STRATEGY_MEDIUM;
-	select_strategy(head, strategy);
+	{
+		radix_sort(head, bench);
+		return (STRATEGY_COMPLEX);
+	}
+	// else
+	// {
+	// 	medium_sort(head, bench);
+	// 	return (STRATEGY_MEDIUM);
+	// }
 }
 
-void	select_strategy(t_node **head, int strategy)
+int	select_strategy(t_node **head, int strategy, float disorder, t_bench *bench)
 {
 	if (strategy == STRATEGY_SIMPLE)
-		selection_sort(head);
+	{
+		minmax_sort(head, bench);
+		return (STRATEGY_SIMPLE);
+	}
 	// else if (strategy == STRATEGY_MEDIUM)
+	// {
 	// 	medium_sort(head);
+	// 	return (STRATEGY_MEDIUM);
+//	}
 	else if (strategy == STRATEGY_COMPLEX)
-		radix_sort(head);
-	else if (strategy == STRATEGY_ADAPTIVE)
-		adaptive_sort(head);
+	{
+		radix_sort(head, bench);
+		return (STRATEGY_COMPLEX);
+	}
+	return (adaptive_sort(head, disorder, bench));
 }
 

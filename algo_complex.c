@@ -1,9 +1,9 @@
 #include "push_swap.h"
 
-static void flush(t_node **stack_a, t_node **stack_b);
+static void flush(t_node **stack_a, t_node **stack_b, t_bench *bench);
 static int get_bit_count(int max_rank);
 
-void	radix_sort(t_node **head)
+void	radix_sort(t_node **head, t_bench *bench)
 {
 	int	size;
 	int	max_bits;
@@ -22,21 +22,21 @@ void	radix_sort(t_node **head)
 		while (j < size)
 		{
 			if ((stack_a->rank >> i) & 1)
-				ra(&stack_a);
+				ra(&stack_a, bench);
 			else
-				pb(&stack_a, &stack_b);
+				pb(&stack_a, &stack_b, bench);
 			j++;
 		}
-		flush(&stack_a, &stack_b);
+		flush(&stack_a, &stack_b, bench);
 		i++;
 	}
 	*head = stack_a;
 }
 
-static void flush(t_node **stack_a, t_node **stack_b)
+static void flush(t_node **stack_a, t_node **stack_b, t_bench *bench)
 {
 	while (*stack_b)
-		pa(stack_b, stack_a);
+		pa(stack_b, stack_a, bench);
 }
 
 static int get_bit_count(int max_rank)

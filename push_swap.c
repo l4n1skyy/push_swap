@@ -1,33 +1,76 @@
 #include "push_swap.h"
-#include <stdio.h>
 
-int main(int argc, char **argv)
+void	print_stack(t_node *head)
 {
-	t_node	*head;
-	t_node	*tmp;
-
-	if (argc <= 1)
-		return (0);
-	head = create_struct(argv);
-	if (!head)
+	while (head)
 	{
-		ft_putstr_fd("Error\n", 2);
-		return (1);
+		printf("%d ", head->number);
+		head = head->next;
 	}
-	/*
-	 radix_sort(&head);
-	tmp = head;
-	while (tmp)
-	{
-		printf("%d\n", tmp->number);
-		tmp = tmp->next;
-	}
-	*/
-	return (0);
+	printf("\n");
 }
-*/
-t_node *handle_fail(t_node **head)
+
+void	run_sort(t_node **head, int strategy, int benchmark)
+{
+	float	disorder;
+	t_bench bench;
+	t_bench *bench_ptr;
+	int		used_strategy;
+	
+	bench = (t_bench){0};
+	bench_ptr = NULL;
+	disorder = compute_disorder(*head);
+	if (benchmark)
+		bench_ptr = &bench;
+	if (disorder != 0.0)
+		used_strategy = select_strategy(head, strategy, disorder, bench_ptr);
+	else
+		used_strategy = strategy;
+	if (benchmark)
+	{
+		print_disorder(disorder);
+		print_strategy(strategy, used_strategy);
+		print_total_operations(&bench);
+		print_swap_push(&bench);
+		print_rotate_rrotate(&bench);
+	}
+}
+
+int	handle_error(void)
+{
+	write(2, "Error\n", 6);
+	return (1);
+}
+
+t_node	*handle_fail(t_node **head)
 {
 	ft_llstclear(head);
 	return (NULL);
 }
+
+
+int	main(int argc, char **argv)
+{
+	t_node	*head;
+	int		strategy;
+	int		benchmark;
+
+	if (argc <= 1)
+		return (0);
+	argv = parse_options(argv, &strategy, &benchmark);
+	if (!argv)
+		return (handle_error());
+	head = create_struct(argv);
+	if (!head)
+		return (handle_error());
+	run_sort(&head, strategy, benchmark);
+//	printf("Strategy: %d\n", strategy);
+	// if (benchmark == 1)
+	// 	printf("got benchmark\n");
+	// else
+	// 	printf("no benchmark\n");
+	// print_stack(head);
+	ft_llstclear(&head);
+	return (0);
+}
+
