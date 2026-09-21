@@ -73,10 +73,30 @@ long	ft_atoi_long(char *s)
 
 int	is_in_range(char *str)
 {
+	char	*read;
+	long	limit;
 	long	number;
+	int		sign;
 
-	number = ft_atoi_long(str);
-	if (number < -2147483648 || number > 2147483647)
-		return (0);
+	read = str;
+	sign = 1;
+	if (*read == '-')
+	{
+		sign = -1;
+		read++;
+	}
+	else if (*read == '+')
+		read++;
+	limit = 2147483647L;
+	if (sign < 0)
+		limit = 2147483648L;
+	number = 0;
+	while (*read)
+	{
+		if (number > (limit - (*read - '0')) / 10)
+			return (0);
+		number = number * 10 + (*read - '0');
+		read++;
+	}
 	return (1);
 }

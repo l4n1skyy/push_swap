@@ -3,7 +3,6 @@
 
 # include <unistd.h>
 # include <stdlib.h>
-# include <stdio.h>
 # include "libft/libft.h"
 
 /* strategy selector */
@@ -37,10 +36,21 @@ typedef struct s_bench
 	int	rrr;
 }	t_bench;
 
-/* algorithms */
-void	radix_sort(t_node **head, t_bench *bench);
-void	minmax_selection_sort(t_node **head, t_bench *bench);
+/* make life easier */
+typedef struct s_chunk_info
+{
+	t_node	**stack_a;
+	t_node	**stack_b;
+	t_bench	*bench;
+	int		n_bucket;
+	int		n_node;
+	int		target;
+}	t_chunk_info;
 
+/* algorithms */
+void	simple_sort(t_node **head, int limit, t_bench *bench);
+void	medium_sort(t_node **head, t_bench *bench);
+void	complex_sort(t_node **head, t_bench *bench);
 
 /* doubly linked list functions */
 t_node	*ft_llstnew(int number);
@@ -69,7 +79,7 @@ float	compute_disorder(t_node *head);
 /* parsing */
 int		parse_strategy(char *arg);
 char	**parse_options(char **argv, int *strategy, int *benchmark);
-int		select_strategy(t_node **head, int strategy, float disorder, t_bench *bench);
+int		select_strategy(t_node **head, int strategy, t_bench *bench);
 int		is_valid_number(char *str);
 int		check_duplicate(t_node *head);
 int		is_in_range(char *str);
@@ -77,17 +87,16 @@ long	ft_atoi_long(char *str);
 t_node	*create_struct(char **argv);
 
 /* benchmarking */
-void	print_benchmark(t_bench *bench, float disorder, int strategy);
+void	print_benchmark(t_bench *bench, float disorder, int strategy,
+		int used_strategy);
 void	print_disorder(float disorder);
 void	print_total_operations(t_bench *bench);
 void	print_swap_push(t_bench *bench);
 void	print_rotate_rrotate(t_bench *bench);
 void	print_strategy(int strategy, int used_strategy);
 
-
 /* error handling */
-int	handle_error(void);
+int		handle_error(void);
 t_node	*handle_fail(t_node **head);
-
 
 #endif

@@ -1,4 +1,3 @@
-#include "libft/libft.h"
 #include "push_swap.h"
 
 static int	add_number(t_node **head, char *str)

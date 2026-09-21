@@ -20,5 +20,7 @@ float	compute_disorder(t_node *head)
 		}
 		head = head->next;
 	}
+	if (total_pairs == 0)
+		return (0.0f);
 	return (mistakes * 1.0 / total_pairs);
 }

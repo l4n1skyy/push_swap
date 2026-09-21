@@ -1,45 +1,43 @@
 #include "push_swap.h"
 
-static void flush(t_node **stack_a, t_node **stack_b);
-static int get_bit_count(int max_rank);
+static void	flush(t_node **stack_a, t_node **stack_b, t_bench *bench);
+static int	get_bit_count(int max_rank);
 
-void	radix_sort(t_node **head)
+void	complex_sort(t_node **head, t_bench *bench)
 {
-	int	size;
-	int	max_bits;
+	t_node	*stack_a;
+	t_node	*stack_b;
+	int		max_bits;
+	int		i;
+	int		count;
 
-	size = ft_llstsize(*head);
-	max_bits = get_bit_count(size - 1);
-
-	t_node *stack_a = *head;
-	t_node *stack_b = NULL;
-
-	int i = 0;
-	int j = 0;
+	stack_a = *head;
+	stack_b = NULL;
+	max_bits = get_bit_count(ft_llstsize(stack_a) - 1);
+	i = 0;
 	while (i < max_bits)
 	{
-		j = 0;
-		while (j < size)
+		count = ft_llstsize(stack_a);
+		while (count--)
 		{
 			if ((stack_a->rank >> i) & 1)
-				ra(&stack_a);
+				ra(&stack_a, bench);
 			else
-				pb(&stack_a, &stack_b);
-			j++;
+				pb(&stack_a, &stack_b, bench);
 		}
-		flush(&stack_a, &stack_b);
+		flush(&stack_a, &stack_b, bench);
 		i++;
 	}
 	*head = stack_a;
 }
 
-static void flush(t_node **stack_a, t_node **stack_b)
+static void	flush(t_node **stack_a, t_node **stack_b, t_bench *bench)
 {
 	while (*stack_b)
-		pa(stack_b, stack_a);
+		pa(stack_b, stack_a, bench);
 }
 
-static int get_bit_count(int max_rank)
+static int	get_bit_count(int max_rank)
 {
 	int	bits;
 
