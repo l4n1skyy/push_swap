@@ -6,7 +6,7 @@
 /*   By: jia-xcho <jia-xcho@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/10 22:49:11 by jia-xcho          #+#    #+#             */
-/*   Updated: 2026/09/17 14:14:09 by jia-xcho         ###   ########.fr       */
+/*   Updated: 2026/09/21 22:31:32 by jia-xcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,23 +18,15 @@ static void	rotate(t_node **head)
 	t_node	*last;
 	t_node	*new_head;
 
-	//get first and last nodes
 	first = *head;
 	last = first;
 	while (last->next)
 		last = last->next;
-
-	//set new head
 	new_head = first->next;
 	new_head->prev = NULL;
-
-	//move first behind last
 	first->next = NULL;
 	first->prev = last;
-
-	//connect last to first
 	last->next = first;
-
 	*head = new_head;
 }
 

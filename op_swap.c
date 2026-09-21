@@ -6,7 +6,7 @@
 /*   By: jia-xcho <jia-xcho@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/10 14:32:30 by jia-xcho          #+#    #+#             */
-/*   Updated: 2026/09/17 14:14:14 by jia-xcho         ###   ########.fr       */
+/*   Updated: 2026/09/21 22:32:01 by jia-xcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,24 +18,15 @@ static void	swap_top(t_node **head)
 	t_node	*second;
 	t_node	*temp;
 
-	//save nodes first
 	first = *head;
 	second = (*head)->next;
 	temp = second->next;
-
-	//change first
 	first->prev = second;
 	first->next = temp;
-
-	//change second
 	second->prev = NULL;
 	second->next = first;
-
-	//fix third
 	if (temp != NULL)
 		temp->prev = first;
-
-	//update head
 	*head = second;
 }
 
@@ -80,4 +71,3 @@ void	ss(t_node **a, t_node **b, t_bench *bench)
 		bench->ss++;
 	write(1, "ss\n", 3);
 }
-

@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_llst.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jia-xcho <jia-xcho@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/21 22:41:56 by jia-xcho          #+#    #+#             */
+/*   Updated: 2026/09/21 22:43:17 by jia-xcho         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
-t_node    *ft_llstnew(int number)
+t_node	*ft_llstnew(int number)
 {
-	t_node    *node;
+	t_node	*node;
 
 	node = malloc(sizeof(t_node));
 	if (!node)
@@ -13,9 +25,9 @@ t_node    *ft_llstnew(int number)
 	return (node);
 }
 
-void    ft_llstaddback(t_node **head, t_node *node)
+void	ft_llstaddback(t_node **head, t_node *node)
 {
-	t_node    *temp;
+	t_node	*temp;
 
 	if (!head || !node)
 		return ;
@@ -47,7 +59,9 @@ void	ft_llstclear(t_node **head)
 
 int	ft_llstsize(t_node *head)
 {
-	int size = 0;
+	int	size;
+
+	size = 0;
 	while (head)
 	{
 		head = head->next;

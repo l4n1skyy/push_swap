@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jia-xcho <jia-xcho@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/09/15 16:48:29 by jia-xcho          #+#    #+#             */
-/*   Updated: 2026/09/17 by jia-xcho                ###   ########.fr       */
+/*   Created: 2026/09/21 22:53:45 by jia-xcho          #+#    #+#             */
+/*   Updated: 2026/09/21 22:54:39 by jia-xcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,35 +25,26 @@ int	parse_strategy(char *argv)
 	return (-1);
 }
 
-char	**parse_options(char **argv, int *strategy, int *benchmark)
+static int	process_option(char *arg, int *strategy, int *benchmark,
+		int *strategy_found)
 {
-	int	strategy_found;
 	int	current;
 
-	*strategy = STRATEGY_ADAPTIVE;
-	*benchmark = 0;
-	strategy_found = 0;
-	argv++;
-	while (*argv && (*argv)[0] == '-' && (*argv)[1] == '-')
+	if (ft_strncmp(arg, "--bench", 8) == 0)
 	{
-		if (ft_strncmp(*argv, "--bench", 8) == 0
-			|| ft_strncmp(*argv, "--benchmark", 12) == 0)
-		{
-			if (*benchmark)
-				return (NULL);
-			*benchmark = 1;
-		}
-		else
-		{
-			current = parse_strategy(*argv);
-			if (current == -1 || strategy_found)
-				return (NULL);
-			*strategy = current;
-			strategy_found = 1;
-		}
-		argv++;
+		if (*benchmark)
+			return (0);
+		*benchmark = 1;
 	}
-	return (argv);
+	else
+	{
+		current = parse_strategy(arg);
+		if (current == -1 || *strategy_found)
+			return (0);
+		*strategy = current;
+		*strategy_found = 1;
+	}
+	return (1);
 }
 
 static int	adaptive_sort(t_node **head, float disorder, t_bench *bench)
@@ -72,8 +63,25 @@ static int	adaptive_sort(t_node **head, float disorder, t_bench *bench)
 	return (STRATEGY_MEDIUM);
 }
 
+char	**parse_options(char **argv, int *strategy, int *benchmark)
+{
+	int	strategy_found;
+
+	*strategy = STRATEGY_ADAPTIVE;
+	*benchmark = 0;
+	strategy_found = 0;
+	argv++;
+	while (*argv && (*argv)[0] == '-' && (*argv)[1] == '-')
+	{
+		if (!process_option(*argv, strategy, benchmark, &strategy_found))
+			return (NULL);
+		argv++;
+	}
+	return (argv);
+}
+
 int	select_strategy(t_node **head, int strategy, float disorder,
-	 t_bench *bench)
+		t_bench *bench)
 {
 	if (!head || !*head || !(*head)->next)
 	{

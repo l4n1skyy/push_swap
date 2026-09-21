@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_input_validation.c                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jia-xcho <jia-xcho@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/21 22:41:32 by jia-xcho          #+#    #+#             */
+/*   Updated: 2026/09/21 22:52:20 by jia-xcho         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 static int	add_number(t_node **head, char *str)
@@ -12,6 +24,7 @@ static int	add_number(t_node **head, char *str)
 		return (0);
 	return (1);
 }
+
 static void	assign_ranks(t_node *head)
 {
 	t_node	*outer;

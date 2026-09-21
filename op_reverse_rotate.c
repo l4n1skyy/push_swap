@@ -6,7 +6,7 @@
 /*   By: jia-xcho <jia-xcho@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/11 15:00:32 by jia-xcho          #+#    #+#             */
-/*   Updated: 2026/09/17 14:14:10 by jia-xcho         ###   ########.fr       */
+/*   Updated: 2026/09/21 22:31:06 by jia-xcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,24 +18,15 @@ static void	reverse_rotate(t_node **head)
 	t_node	*last;
 	t_node	*new_end;
 
-	//get first and last nodes
 	first = *head;
 	last = first;
 	while (last->next)
 		last = last->next;
-
-	//save and set new end
 	new_end = last->prev;
 	new_end->next = NULL;
-
-	//move last in front of first
 	last->next = first;
 	last->prev = NULL;
-
-	//connect first to last
 	first->prev = last;
-
-	//set new head
 	*head = last;
 }
 
@@ -80,4 +71,3 @@ void	rrr(t_node **a, t_node **b, t_bench *bench)
 		bench->rrr++;
 	write(1, "rrr\n", 4);
 }
-

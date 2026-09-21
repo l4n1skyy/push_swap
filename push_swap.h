@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   push_swap.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jia-xcho <jia-xcho@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/21 22:33:58 by jia-xcho          #+#    #+#             */
+/*   Updated: 2026/09/21 22:34:42 by jia-xcho         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 
@@ -6,10 +18,10 @@
 # include "libft/libft.h"
 
 /* strategy selector */
-#define STRATEGY_ADAPTIVE 0
-#define STRATEGY_SIMPLE   1
-#define STRATEGY_MEDIUM   2
-#define STRATEGY_COMPLEX  3
+# define STRATEGY_ADAPTIVE 0
+# define STRATEGY_SIMPLE   1
+# define STRATEGY_MEDIUM   2
+# define STRATEGY_COMPLEX  3
 
 /* struct */
 typedef struct s_node
@@ -49,9 +61,9 @@ typedef struct s_chunk_info
 
 /* algorithms */
 void	simple_sort(t_node **head, int limit, t_bench *bench);
-void	simple_sortv2(t_node **head, int limit, t_bench *bench);
 void	medium_sort(t_node **head, t_bench *bench);
 void	complex_sort(t_node **head, t_bench *bench);
+int		sort_small(t_node **a, int limit, t_bench *bench);
 
 /* doubly linked list functions */
 t_node	*ft_llstnew(int number);
@@ -73,8 +85,8 @@ void	rrb(t_node **b, t_bench *bench);
 void	rrr(t_node **a, t_node **b, t_bench *bench);
 
 /* other utils */
-t_node *create_struct(char **argv);
-t_node *handle_fail(t_node **head);
+t_node	*create_struct(char **argv);
+t_node	*handle_fail(t_node **head);
 float	compute_disorder(t_node *head);
 
 /* parsing */
@@ -90,7 +102,7 @@ t_node	*create_struct(char **argv);
 
 /* benchmarking */
 void	print_benchmark(t_bench *bench, float disorder, int strategy,
-		int used_strategy);
+			int used_strategy);
 void	print_disorder(float disorder);
 void	print_total_operations(t_bench *bench);
 void	print_swap_push(t_bench *bench);
