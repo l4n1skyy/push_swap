@@ -171,7 +171,7 @@ static void	push_to_a(t_node **a, t_node **b, int size, t_bench *bench)
 	}
 }
 
-void	selection_sort(t_node **head, t_bench *bench)
+void	minmax_selection_sort(t_node **head, t_bench *bench)
 {
 	t_node	*a;
 	t_node	*b;
