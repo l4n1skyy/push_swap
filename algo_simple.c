@@ -147,7 +147,7 @@ static void	push_max_to_a(t_node **a, t_node **b, int size, t_bench *bench)
 	}
 }
 
-void	simple_sort(t_node **head, int limit, t_bench *bench)
+void	simple_sortv2(t_node **head, int limit, t_bench *bench)
 {
 	t_node	*a;
 	t_node	*b;

@@ -49,6 +49,7 @@ typedef struct s_chunk_info
 
 /* algorithms */
 void	simple_sort(t_node **head, int limit, t_bench *bench);
+void	simple_sortv2(t_node **head, int limit, t_bench *bench);
 void	medium_sort(t_node **head, t_bench *bench);
 void	complex_sort(t_node **head, t_bench *bench);
 
