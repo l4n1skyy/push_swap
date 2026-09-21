@@ -6,7 +6,7 @@
 /*   By: jia-xcho <jia-xcho@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/21 22:33:58 by jia-xcho          #+#    #+#             */
-/*   Updated: 2026/09/21 23:23:11 by jia-xcho         ###   ########.fr       */
+/*   Updated: 2026/09/21 23:54:12 by jia-xcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,6 @@ void	rra(t_node **a, t_bench *bench);
 void	rrb(t_node **b, t_bench *bench);
 void	rrr(t_node **a, t_node **b, t_bench *bench);
 
-/* other utils */
-t_node	*create_struct(char **argv);
-t_node	*handle_fail(t_node **head);
-float	compute_disorder(t_node *head);
-
 /* parsing */
 int		parse_strategy(char *arg);
 char	**parse_options(char **argv, int *strategy, int *benchmark);
@@ -101,6 +96,7 @@ long	ft_atoi_long(char *str);
 t_node	*create_struct(char **argv);
 
 /* benchmarking */
+float	compute_disorder(t_node *head);
 void	print_benchmark(t_bench *bench, float disorder, int strategy,
 			int used_strategy);
 void	print_disorder(float disorder);
