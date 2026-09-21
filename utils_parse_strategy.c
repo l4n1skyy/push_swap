@@ -56,21 +56,39 @@ char	**parse_options(char **argv, int *strategy, int *benchmark)
 	return (argv);
 }
 
-static int	adaptive_strategy(float disorder)
+static int	adaptive_sort(t_node **head, float disorder, t_bench *bench)
 {
 	if (disorder < 0.2)
+	{
+		simple_sort(head, ft_llstsize(*head), bench);
 		return (STRATEGY_SIMPLE);
-	else if (disorder >= 0.5)
+	}
+	if (disorder >= 0.5)
+	{
+		complex_sort(head, bench);
 		return (STRATEGY_COMPLEX);
+	}
+	medium_sort(head, bench);
 	return (STRATEGY_MEDIUM);
 }
 
-int	select_strategy(t_node **head, int strategy, t_bench *bench)
+int	select_strategy(t_node **head, int strategy, float disorder,
+	 t_bench *bench)
 {
 	if (!head || !*head || !(*head)->next)
-		return (0);
+	{
+		if (strategy == STRATEGY_ADAPTIVE)
+			return (STRATEGY_SIMPLE);
+		return (strategy);
+	}
+	if (disorder == 0.0f)
+	{
+		if (strategy == STRATEGY_ADAPTIVE)
+			return (STRATEGY_SIMPLE);
+		return (strategy);
+	}
 	if (strategy == STRATEGY_ADAPTIVE)
-		strategy = adaptive_strategy(compute_disorder(*head));
+		return (adaptive_sort(head, disorder, bench));
 	if (strategy == STRATEGY_SIMPLE)
 		simple_sort(head, ft_llstsize(*head), bench);
 	else if (strategy == STRATEGY_MEDIUM)
@@ -79,5 +97,5 @@ int	select_strategy(t_node **head, int strategy, t_bench *bench)
 		complex_sort(head, bench);
 	else
 		return (-1);
-	return (0);
+	return (strategy);
 }

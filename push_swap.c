@@ -32,15 +32,6 @@ static void	bench_put_disorder(float disorder)
 	write(2, "%", 1);
 }
 
-static int	disorder_strategy(float disorder)
-{
-	if (disorder < 0.2)
-		return (STRATEGY_SIMPLE);
-	if (disorder >= 0.5)
-		return (STRATEGY_COMPLEX);
-	return (STRATEGY_MEDIUM);
-}
-
 static char	*strategy_name(int strategy)
 {
 	if (strategy == STRATEGY_SIMPLE)
@@ -158,10 +149,13 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	disorder = compute_disorder(head);
-	used_strategy = strategy;
-	if (strategy == STRATEGY_ADAPTIVE)
-		used_strategy = disorder_strategy(disorder);
-	select_strategy(&head, used_strategy, &bench);
+	used_strategy = select_strategy(&head, strategy, disorder, &bench);
+	if (used_strategy < 0)
+	{
+		ft_llstclear(&head);
+		ft_putstr_fd("Error\n", 2);
+		return (1);
+	}
 	if (benchmark)
 		print_benchmark(&bench, disorder, strategy, used_strategy);
 	ft_llstclear(&head);

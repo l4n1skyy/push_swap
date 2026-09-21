@@ -32,7 +32,7 @@ minimum or maximum from the remaining values.
 
 ### simple_sortv2: O(n²)
 
-`simple_sortv2` is a separate chunk-based selection adaptation. It is not used
+`simple_sortv2` in `algo_simplev2.c` is a separate chunk-based selection adaptation. It is not used
 by `--simple`; it remains available as an alternative implementation.
 
 For inputs of 2, 3, and 5 values it uses direct rank cases:
@@ -68,26 +68,27 @@ chunk_size   = ceil(n / bucket_count)
 ```
 
 The division by 2 changes only the constant; the number of buckets remains
-Theta(√n).
+Θ(√n).
 
 Buckets are processed from the highest rank range down to the lowest:
 
-1. Calculate the current rank interval `[lower, upper)`.
-2. Scan the current A. A value inside the interval is pushed to B with `pb`;
-	every other value is rotated with `ra`.
-3. At the end of distribution, B contains only the current bucket.
-4. Starting at `upper - 1`, search B for each rank in descending order.
-	Rotate toward the rank with `rb` or `rrb`, then push it to A with `pa`.
-5. Continue with the next lower interval.
+1. Calculate the current rank range. A value belongs to the bucket when
+	`rank >= lower` and `rank < upper`.
+2. Scan the current A from top to bottom. If a value belongs to the current
+	bucket, push it to B with `pb`. Otherwise rotate A with `ra` and continue.
+3. After the scan, B contains only values from the current bucket. A contains
+	the unprocessed lower ranks and the buckets already completed.
+4. Start with the largest rank in the bucket. Search B for that rank, choose
+	`rb` or `rrb` according to its position, rotate it to the top, and push it
+	to A with `pa`.
+5. Repeat the previous step for every rank in the bucket, descending to the
+	lower boundary.
+6. Move to the next lower bucket and repeat until rank 0 has been processed.
 
-Pushing a bucket back in descending selection order places that bucket in
-ascending order at the top of A. Processing lower buckets afterward places
-them before the already processed higher ranks, so A becomes globally sorted.
-
-There are Theta(√n) bucket passes, and each distribution scans at most O(n)
-values, giving O(n√n). A bucket has O(√n) values; extracting it by maximum
-selection costs O((√n)²) = O(n). Across all buckets this is O(n√n) as well.
-Only A and B are used.
+There are Θ(√n) bucket passes, and each distribution scans at most O(n)
+values, giving O(n√n). A bucket has O(√n) values. Extracting one bucket by
+maximum selection costs O((√n)²) = O(n); across all buckets this is also
+O(n√n). Only A and B are used.
 
 ### Complex: O(n log n)
 
@@ -116,11 +117,25 @@ examines every pair of values in the original A:
 ```text
 mistakes = number of pairs where an earlier value is larger
 total_pairs = n * (n - 1) / 2
-from `simple_sort`; the `--simple` selector uses the original `simple_sort`.
 ```
 
 The result is between 0 and 1. A sorted input has disorder 0; a reverse-sorted
 input has disorder 1. Inputs with fewer than two values return disorder 0.
+
+The entry point passes both the requested strategy and the measured disorder to
+`select_strategy()`:
+
+```c
+disorder = compute_disorder(head);
+used_strategy = select_strategy(&head, strategy, disorder, &bench);
+```
+
+For an explicit `--simple`, `--medium`, or `--complex` request, disorder is
+not used to override the request. The requested algorithm runs directly. When
+`--adaptive` is requested, `select_strategy()` calls `adaptive_sort()`, which
+runs the algorithm selected by the thresholds below and returns its strategy
+identifier. If disorder is `0.0`, the input is already sorted and the selector
+returns without generating operations.
 
 The thresholds are:
 
@@ -132,6 +147,8 @@ The thresholds are:
 
 This keeps nearly sorted data on the original selection algorithm, uses bucket
 sorting for medium disorder, and uses radix sorting for highly disordered data.
+Benchmark output records both the requested strategy and the strategy actually
+used, which is useful for adaptive mode.
 The disorder calculation itself is O(n²), but it happens before stack
 operations and is separate from each selected sorting strategy's operation
 class.
@@ -156,11 +173,11 @@ the average is included for comparison.
 
 | Input | Strategy | Min | Max | Average | Result |
 | --- | --- | ---: | ---: | ---: | --- |
-| 100 | simple_sort | 983 | 1287 | 1122.20 | Good |
+| 100 | Simple | 983 | 1287 | 1122.20 | Good |
 | 100 | Medium | 819 | 900 | 859.05 | Good |
 | 100 | Complex | 1084 | 1084 | 1084.00 | Good |
 | 100 | Adaptive | 819 | 1084 | 975.58 | Good |
-| 500 | simple_sort | 21027 | 24191 | 22306.21 | Fail |
+| 500 | Simple | 21027 | 24191 | 22306.21 | Fail |
 | 500 | Medium | 8652 | 9091 | 8890.64 | Pass |
 | 500 | Complex | 6784 | 6784 | 6784.00 | Good |
 | 500 | Adaptive | 6784 | 9090 | 8027.56 | Pass |
