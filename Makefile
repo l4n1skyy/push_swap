@@ -1,7 +1,7 @@
 NAME		= push_swap
 
 CC			= cc
-CFLAGS		= -Wall -Wextra -Werror
+CFLAGS		= -Wall -Wextra -Werror -I.
 
 LIBFT_DIR	= libft
 LIBFT		= $(LIBFT_DIR)/libft.a
@@ -9,7 +9,25 @@ LIBFT		= $(LIBFT_DIR)/libft.a
 FTPRINTF_DIR	= ft_printf
 FTPRINTF		= $(FTPRINTF_DIR)/libftprintf.a
 
-SRCS		= $(wildcard *.c)
+GNL_DIR		= get_next_line
+
+SRCS		= algo_complex.c \
+			  algo_medium.c \
+			  algo_simple.c \
+			  op_push.c \
+			  op_reverse_rotate.c \
+			  op_rotate.c \
+			  op_swap.c \
+			  push_swap.c \
+			  utils_disorder.c \
+			  utils_input_validation.c \
+			  utils_llst.c \
+			  utils_number_validation.c \
+			  utils_parse_strategy.c \
+			  utils_print_benchmark.c \
+			  $(GNL_DIR)/get_next_line.c \
+			  $(GNL_DIR)/get_next_line_utils.c
+
 OBJS		= $(SRCS:.c=.o)
 
 all: $(NAME)

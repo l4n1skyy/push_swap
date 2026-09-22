@@ -16,6 +16,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include "libft/libft.h"
+# include "get_next_line/get_next_line.h"
 
 /* strategy selector */
 # define STRATEGY_ADAPTIVE 0
