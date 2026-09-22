@@ -80,3 +80,13 @@ int	is_in_range(char *str)
 		return (0);
 	return (1);
 }
+
+int	ft_sqrt(int n)
+{
+	int	i;
+
+	i = 1;
+	while (i * i <= n)
+		i++;
+	return (i - 1);
+}

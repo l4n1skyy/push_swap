@@ -60,6 +60,15 @@ typedef struct s_chunk_info
 	int		target;
 }	t_chunk_info;
 
+typedef struct s_range
+{
+	t_node	**a;
+	t_node	**b;
+	t_bench	*bench;
+	int		lower;
+	int		upper;
+}	t_range;
+
 /* algorithms */
 void	simple_sort(t_node **head, int limit, t_bench *bench);
 void	medium_sort(t_node **head, t_bench *bench);
@@ -86,15 +95,21 @@ void	rrb(t_node **b, t_bench *bench);
 void	rrr(t_node **a, t_node **b, t_bench *bench);
 
 /* parsing */
+t_node	*create_struct(char **argv);
 int		parse_strategy(char *arg);
-char	**parse_options(char **argv, int *strategy, int *benchmark);
 int		select_strategy(t_node **head, int strategy, float disorder,
 			t_bench *bench);
-int		is_valid_number(char *str);
-int		check_duplicate(t_node *head);
+char	**parse_options(char **argv, int *strategy, int *benchmark);
+
+/* utils */
 int		is_in_range(char *str);
+int		check_duplicate(t_node *head);
+int		is_valid_number(char *str);
+int		ft_sqrt(int n);
 long	ft_atoi_long(char *str);
-t_node	*create_struct(char **argv);
+int		find_rank_position(t_node *head, int rank);
+void	push_rank_to_b(t_node **a, t_node **b, int rank, t_bench *bench);
+void	push_max_to_a(t_node **a, t_node **b, int size, t_bench *bench);
 
 /* benchmarking */
 float	compute_disorder(t_node *head);

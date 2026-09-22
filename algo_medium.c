@@ -1,9 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   algo_medium.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jia-xcho <jia-xcho@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/21 22:05:52 by jia-xcho          #+#    #+#             */
+/*   Updated: 2026/09/21 22:05:55 by jia-xcho         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
-static int	find_rank_position(t_node *head, int rank);
 static void	distribute_bucket(t_chunk_info *info, int lower, int upper);
 static void	sort_bucket(t_chunk_info *info, int lower, int upper);
-static int	ft_sqrt(int n);
+static void	move_rank_to_a(t_chunk_info *info, int rank);
 
 void	medium_sort(t_node **head, t_bench *bench)
 {
@@ -52,54 +63,34 @@ static void	distribute_bucket(t_chunk_info *info, int lower, int upper)
 static void	sort_bucket(t_chunk_info *info, int lower, int upper)
 {
 	int	rank;
-	int	position;
-	int	size;
 
 	rank = upper - 1;
 	while (rank >= lower)
 	{
-		size = ft_llstsize(*info->stack_b);
-		position = find_rank_position(*info->stack_b, rank);
-		if (position >= 0)
-		{
-			if (position <= size / 2)
-			{
-				while (position-- > 0)
-					rb(info->stack_b, info->bench);
-			}
-			else
-			{
-				position = size - position;
-				while (position-- > 0)
-					rrb(info->stack_b, info->bench);
-			}
-			pa(info->stack_b, info->stack_a, info->bench);
-		}
+		move_rank_to_a(info, rank);
 		rank--;
 	}
 }
 
-static int	find_rank_position(t_node *head, int rank)
+static void	move_rank_to_a(t_chunk_info *info, int rank)
 {
 	int	position;
+	int	size;
 
-	position = 0;
-	while (head)
+	size = ft_llstsize(*info->stack_b);
+	position = find_rank_position(*info->stack_b, rank);
+	if (position < 0)
+		return ;
+	if (position <= size / 2)
 	{
-		if (head->rank == rank)
-			return (position);
-		head = head->next;
-		position++;
+		while (position-- > 0)
+			rb(info->stack_b, info->bench);
 	}
-	return (-1);
-}
-
-static int	ft_sqrt(int n)
-{
-	int	i;
-
-	i = 1;
-	while (i * i <= n)
-		i++;
-	return (i - 1);
+	else
+	{
+		position = size - position;
+		while (position-- > 0)
+			rrb(info->stack_b, info->bench);
+	}
+	pa(info->stack_b, info->stack_a, info->bench);
 }
