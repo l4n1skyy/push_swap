@@ -6,7 +6,7 @@
 /*   By: jia-xcho <jia-xcho@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/21 22:53:45 by jia-xcho          #+#    #+#             */
-/*   Updated: 2026/09/22 11:32:32 by jia-xcho         ###   ########.fr       */
+/*   Updated: 2026/09/22 14:41:38 by jia-xcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,12 @@ static int	process_option(char *arg, int *strategy, int *benchmark,
 
 static int	adaptive_sort(t_node **head, float disorder, t_bench *bench)
 {
-	if (disorder < 0.2)
+	int	size;
+
+	size = ft_llstsize(*head);
+	if (disorder < 0.2 || size < 6)
 	{
-		simple_sort(head, ft_llstsize(*head), bench);
+		simple_sort(head, size, bench);
 		return (STRATEGY_SIMPLE);
 	}
 	if (disorder >= 0.5)
