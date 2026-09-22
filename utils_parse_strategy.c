@@ -6,7 +6,7 @@
 /*   By: jia-xcho <jia-xcho@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/21 22:53:45 by jia-xcho          #+#    #+#             */
-/*   Updated: 2026/09/21 22:54:39 by jia-xcho         ###   ########.fr       */
+/*   Updated: 2026/09/22 11:32:32 by jia-xcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,12 +83,6 @@ char	**parse_options(char **argv, int *strategy, int *benchmark)
 int	select_strategy(t_node **head, int strategy, float disorder,
 		t_bench *bench)
 {
-	if (!head || !*head || !(*head)->next)
-	{
-		if (strategy == STRATEGY_ADAPTIVE)
-			return (STRATEGY_SIMPLE);
-		return (strategy);
-	}
 	if (disorder == 0.0f)
 	{
 		if (strategy == STRATEGY_ADAPTIVE)

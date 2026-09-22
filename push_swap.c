@@ -6,7 +6,7 @@
 /*   By: jia-xcho <jia-xcho@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/21 22:32:52 by jia-xcho          #+#    #+#             */
-/*   Updated: 2026/09/21 22:33:23 by jia-xcho         ###   ########.fr       */
+/*   Updated: 2026/09/22 11:19:58 by jia-xcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,18 +46,6 @@ void	run_sort(t_node **head, int strategy, int benchmark)
 		print_swap_push(&bench);
 		print_rotate_rrotate(&bench);
 	}
-}
-
-int	handle_error(void)
-{
-	write(2, "Error\n", 6);
-	return (1);
-}
-
-t_node	*handle_fail(t_node **head)
-{
-	ft_llstclear(head);
-	return (NULL);
 }
 
 int	main(int argc, char **argv)
