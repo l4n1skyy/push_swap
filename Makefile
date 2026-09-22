@@ -14,6 +14,7 @@ GNL_DIR		= get_next_line
 SRCS		= algo_complex.c \
 			  algo_medium.c \
 			  algo_simple.c \
+			  algo_small.c \
 			  op_push.c \
 			  op_reverse_rotate.c \
 			  op_rotate.c \
@@ -22,6 +23,7 @@ SRCS		= algo_complex.c \
 			  utils_disorder.c \
 			  utils_input_validation.c \
 			  utils_llst.c \
+			  utils_algo.c \
 			  utils_number_validation.c \
 			  utils_parse_strategy.c \
 			  utils_print_benchmark.c \

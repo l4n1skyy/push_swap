@@ -152,11 +152,11 @@ operation stream remains on standard output.
 
 | Input | Strategy | Min | Max | Average | Result |
 | --- | --- | ---: | ---: | ---: | --- |
-| 100 | Simple (chunk-based) | 621 | 712 | 656.58 | Good |
-| 100 | Medium | 819 | 900 | 859.05 | Good |
+| 100 | Simple (chunk-based) | 611 | 689 | 654.61 | Good |
+| 100 | Medium | 819 | 893 | 858.99 | Good |
 | 100 | Complex | 1084 | 1084 | 1084.00 | Good |
-| 500 | Simple (chunk-based) | 5566 | 6057 | 5802.92 | Good |
-| 500 | Medium | 8652 | 9091 | 8890.64 | Pass |
+| 500 | Simple (chunk-based) | 5620 | 5993 | 5801.94 | Good |
+| 500 | Medium | 8686 | 9099 | 8908.49 | Pass |
 | 500 | Complex | 6784 | 6784 | 6784.00 | Good |
 
 All runs were verified with `checker_linux`. Adaptive-mode figures depend on
