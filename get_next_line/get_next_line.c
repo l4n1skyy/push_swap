@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lanusri- <lanusri-@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: jia-xcho <jia-xcho@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/03 00:00:00 by lanusri-          #+#    #+#             */
-/*   Updated: 2026/09/03 00:00:00 by lanusri-         ###   ########.fr       */
+/*   Updated: 2026/09/22 10:10:03 by jia-xcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include "../libft/libft.h"
 
 static int	gnl_fail(char *buffer, char **stash);
 static int	update_stash(char **stash, char *buffer, ssize_t bytes_read);

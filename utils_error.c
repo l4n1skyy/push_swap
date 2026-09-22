@@ -1,26 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   utils_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jia-xcho <jia-xcho@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/09/03 00:00:00 by lanusri-          #+#    #+#             */
-/*   Updated: 2026/09/22 11:34:04 by jia-xcho         ###   ########.fr       */
+/*   Created: 2026/09/22 11:17:09 by jia-xcho          #+#    #+#             */
+/*   Updated: 2026/09/22 11:18:17 by jia-xcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "push_swap.h"
 
-# include <stddef.h>
-# include <stdlib.h>
-# include <unistd.h>
+int	handle_error(void)
+{
+	write(2, "Error\n", 6);
+	return (1);
+}
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 42
-# endif
-
-char	*get_next_line(int fd);
-
-#endif
+t_node	*handle_fail(t_node **head)
+{
+	ft_llstclear(head);
+	return (NULL);
+}
