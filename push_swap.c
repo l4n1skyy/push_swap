@@ -6,21 +6,11 @@
 /*   By: jia-xcho <jia-xcho@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/21 22:32:52 by jia-xcho          #+#    #+#             */
-/*   Updated: 2026/09/22 11:19:58 by jia-xcho         ###   ########.fr       */
+/*   Updated: 2026/09/22 14:07:45 by jia-xcho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-void	print_stack(t_node *head)
-{
-	while (head)
-	{
-		printf("%d ", head->number);
-		head = head->next;
-	}
-	printf("\n");
-}
 
 void	run_sort(t_node **head, int strategy, int benchmark)
 {
