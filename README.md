@@ -1,164 +1,161 @@
+*This project has been created as part of the 42 curriculum by lanusri-, jia-xcho.*
+
 # push_swap
 
 ## Description
 
-`push_swap` sorts stack A in ascending order using only stack A, stack B, and permitted operations. Values must be unique signed integers. The program outputs operations only, one per line, on standard output.
+push_swap is a project with the purpose of sorting a stack of integers into ascending order, using a second stack (stack B) and a restricted set of operations, while minimizing the number of operations used.
 
-## Build
+## Instructions
 
-### Simple: O(n²)
+### Compilation
 
-`simple_sort` is a chunk-based selection adaptation, used by the `--simple`
-selector and by adaptive mode for low disorder. It keeps two local stacks: A
-is the working stack and B is the temporary stack.
+```bash
+make
+make bonus
+```
 
-For inputs of 2, 3, and 5 values, `sort_small` handles direct rank cases:
+### Execution
 
-- 2 values: swap A only when the ranks are reversed.
-- 3 values: choose the required `sa`, `ra`, or `rra` combination from the
-  three rank relationships.
-- 5 values: push ranks 0 and 1 to B, sort the remaining three in A, then use
-  `pa` twice to restore the two smallest values in order.
+```bash
+./push_swap [flags] arg1 arg2 arg3 ...
+```
 
-For larger inputs, `push_chunks` and `distribute_chunk`:
+Example:
 
-1. Use 5 logical chunks for at most 100 values and 10 chunks above 100.
-2. Scan A once for each chunk. Values whose rank belongs to the current
-	range are pushed to B with `pb`; other values are rotated in A with `ra`.
-3. Rotate B with `rb` when a newly pushed value belongs to the lower half of
-	the current chunk.
-4. Once all chunks are in B, `push_max_to_a` searches for ranks from `n - 1`
-	down to 0, rotates each selected rank to the top with `rb` or `rrb`, and
-	pushes it to A with `pa`.
+```bash
+./push_swap 2 1 3 6 5 8
+```
 
-The repeated maximum searches during reconstruction make the general path
-O(n²). Only A and B are used; chunks are rank ranges, not additional stacks.
+```bash
+ARG="2 1 3 6 5 8"
+./push_swap $ARG | ./checker_linux $ARG
+```
+The following inputs are not allowed and print `Error`:
+- duplicate number
+- decimal number
+- letters or other characters
+- outside the 32-bit range
+- one quoted argument
 
-### Medium: O(n√n)
+### Strategy flags
 
-The medium strategy processes one bucket at a time and never stores multiple
-logical buckets in B. For `n` values it uses:
+| Flag | Strategy | Target complexity |
+| --- | --- | --- |
+| `--simple` | Chunk-based selection sort | O(n²) |
+| `--medium` | Bucket-based sort | O(n√n) |
+| `--complex` | LSD radix sort | O(n log n) |
+| `--adaptive` | Measures disorder, then picks one of the above automatically | Varies |
 
-```text
+### Benchmark mode
+
+Pass a strategy flag and `--bench` to print the operation count on standard
+error while the normal operation stream remains on standard output:
+
+```bash
+ARG="2 1 3 6 5 8"
+./push_swap --bench --simple $ARG
+```
+
+| Input size | Simple | Medium | Complex |
+| --- | ---: | ---: | ---: |
+| 2 numbers | 1 | 5 | 3 |
+| 3 numbers | 2 | 8 | 10 |
+| 5 numbers | 10 | 16 | 25 |
+| 100 numbers | 643 | 847 | 1084 |
+| 500 numbers | 5777 | 8894 | 6784 |
+| 5000 numbers | 246020 | 268740 | 100196 |
+| 10000 numbers | 893396 | 757647 | 215392 |
+
+
+| Input size | Pass | Good | Excellent |
+| --- | ---: | ---: | ---: |
+| 100 numbers | < 2000 ops | < 1500 ops | < 700 ops |
+| 500 numbers | < 12000 ops | < 8000 ops | < 5500 ops |
+
+
+## Algorithms — explanation and justification
+
+## Simple sort — O(n²)
+
+For small inputs, `sort_small` handles the base cases directly by rank comparison:
+
+- **2 values:** a single `sa` if the two ranks are reversed.
+- **3 values:** the correct combination of `sa`, `ra`, or `rra` is chosen from the three possible rank relationships.
+- **5 values:** the two smallest ranks are pushed to B, the remaining three are sorted in A, then `pa` is used twice to restore the two smallest values in order.
+- **n ≤ 100:** split range into 5 chunks, then selection sort.
+- **n > 100:** split range into 10 chunks, then selection sort.
+
+### Maximum Extraction Selection Sort Explanation
+- Repeatedly find the biggest remaining rank in B and move it to A.
+1. Look through B and find where the current target rank is sitting.
+2. Rotate B (rb or rrb, whichever is the shorter direction) until that value is on top.
+3. Push it onto A with pa.
+4. Move to the next-lower rank and repeat.
+
+Simple sort uses chunked max-extraction (rather than a plain 2-stack min/max scan) because grouping ranks into a handful of chunks first cuts down how far values have to travel before extraction, lowering the operation count while keeping the same O(n²).
+
+
+## Medium sort — O(n√n)
+
+
+```
 bucket_count = max(1, floor(sqrt(n) / 2))
 chunk_size   = ceil(n / bucket_count)
 ```
+*** why divide sqrt(n) by 2?
+constant to reduce distribution passes but increases extraction a bit, perform better in benchmarking.
 
-The division by 2 changes only the constant; the number of buckets remains
-Θ(√n).
+- **medium_sort** = figures out how many buckets to use (√n/2) and how big each one is (chunk_size), then works through the ranks from highest down to lowest.
+- **distribute_bucket** =  for the current bucket's rank range, scan A: if a value belongs in this bucket, push it to B; otherwise just rotate it out of the way in A. Same move as simple sort's chunk step.
+- **sort_bucket** = same as the maximum-extraction loop from simple sort, just for one bucket.
+- **move_rank_to_a** =  this is the maximum extraction step: find the target rank in B, rotate it to the top the short way (rb if it's closer to the front, rrb if closer to the back), then pa it onto A.
 
-Buckets are processed from the highest rank range down to the lowest:
+Medium sort was built as chunked max-extraction with √n-sized buckets (rather than, say, 3 or 4 fixed buckets like simple sort, or a fully sorted insertion approach) because shrinking the chunk size is what pushes the cost down from O(n²) to O(n√n).
 
-1. Calculate the current rank range. A value belongs to the bucket when
-	`rank >= lower` and `rank < upper`.
-2. Scan the current A from top to bottom (`distribute_bucket`). If a value
-	belongs to the current bucket, push it to B with `pb`. Otherwise rotate A
-	with `ra` and continue.
-3. After the scan, B contains only values from the current bucket. A contains
-	the unprocessed lower ranks and the buckets already completed.
-4. Start with the largest rank in the bucket. `move_rank_to_a` searches B for
-	that rank, chooses `rb` or `rrb` according to its position, rotates it to
-	the top, and pushes it to A with `pa`.
-5. Repeat the previous step for every rank in the bucket, descending to the
-	lower boundary (`sort_bucket`).
-6. Move to the next lower bucket and repeat until rank 0 has been processed.
+## Complex sort — O(n log n)
 
-There are Θ(√n) bucket passes, and each distribution scans at most O(n)
-values, giving O(n√n). A bucket has O(√n) values. Extracting one bucket by
-maximum selection costs O((√n)²) = O(n); across all buckets this is also
-O(n√n). Only A and B are used.
+The complex strategy is a least-significant-bit-first (LSD) radix sort on the ranks of the values.
 
-### Complex: O(n log n)
+For each bit position, from least to most significant:
 
-The complex strategy is a least-significant-bit-first radix sort on ranks.
-Ranks are used instead of raw numbers, so negative values do not require a
-special case.
+1. Record how many values currently sit in A.
+2. Inspect exactly that many values from the top.
+3. Push each value whose current bit is 0 to B (`pb`) or rotate a value whose bit is 1 to the bottom of A (`ra`).
+4. Push everything from B back to A (`pa`).
 
-For each bit from least significant to most significant:
+Complex sort uses radix-on-ranks (rather than a comparison-based O(n log n) sort like merge sort) because it needs no comparisons or extra data structures to reach O(n log n), every operation maps directly onto push/rotate, which fits the stack constraint of the project better.
 
-1. Record the current number of values in A.
-2. Inspect exactly that many values from the top of A.
-3. If the current bit is 0, push the value to B with `pb`.
-4. If the current bit is 1, rotate it to the bottom of A with `ra`.
-5. Push every value from B back to A with `pa`.
+## Adaptive mode
 
-The push/rotate pass costs O(n) operations. A rank below n needs O(log n) bits,
-so the total operation bound is O(n log n). The binary partition is stable
-because bit-1 values stay in A in their relative order and bit-0 values are
-returned from B in the order produced by the pass.
 
-### Adaptive
-
-Adaptive mode measures disorder before performing any sorting operation. It
-examines every pair of values in the original A:
-
-```text
-mistakes = number of pairs where an earlier value is larger
+```
+mistakes    = number of pairs where an earlier value is larger than a later one
 total_pairs = n * (n - 1) / 2
+disorder    = mistakes / total_pairs        (0 for n < 2)
 ```
 
-The result is between 0 and 1. A sorted input has disorder 0; a reverse-sorted
-input has disorder 1. Inputs with fewer than two values return disorder 0.
+`disorder` is `0.0` for an already-sorted input and `1.0` for a fully reverse-sorted one. This computation is O(n²) by nature, but it happens once.
 
-The entry point passes both the requested strategy and the measured disorder to
-`select_strategy()`:
+`select_strategy()` receives the requested mode and the measured disorder. If a specific strategy (`--simple`, `--medium`, `--complex`).
 
-```c
-disorder = compute_disorder(head);
-used_strategy = select_strategy(&head, strategy, disorder, &bench);
-```
-
-For an explicit `--simple`, `--medium`, or `--complex` request, disorder is
-not used to override the request. The requested algorithm runs directly. When
-`--adaptive` is requested, `select_strategy()` resolves the strategy internally
-using `adaptive_strategy()` and the thresholds below. If disorder is `0.0`,
-the input is already sorted and the selector returns without generating
-operations.
-
-The thresholds are:
-
-| Disorder | Strategy | Target class |
+| Disorder | Strategy used | Target class |
 | --- | --- | --- |
-| `< 0.2` | `simple_sort` | O(n²) |
-| `0.2` to `< 0.5` | `medium_sort` | O(n√n) |
-| `>= 0.5` | `complex_sort` | O(n log n) |
+| < 0.2 | `simple_sort` | O(n²) |
+| 0.2 – < 0.5 | `medium_sort` | O(n√n) |
+| ≥ 0.5 | `complex_sort` | O(n log n) |
 
-This keeps nearly sorted data on the chunk-based simple algorithm, uses bucket
-sorting for medium disorder, and uses radix sorting for highly disordered data.
-Benchmark output records both the requested strategy and the strategy actually
-used, which is useful for adaptive mode.
-The disorder calculation itself is O(n²), but it happens before stack
-operations and is separate from each selected sorting strategy's operation
-class.
+## Delegation of work
 
-## Benchmark targets
 
-| Input | Pass | Good | Excellent |
-| --- | ---: | ---: | ---: |
-| 100 numbers | `< 2000` | `< 1500` | `< 700` |
-| 500 numbers | `< 12000` | `< 8000` | `< 5500` |
+- **lanusri-** — complex sort, medium sort, input validation, simple sort optimisation, utils.
+- **jia-xcho** — simple sort, benchmarking, bonus, adaptive strategy, operations, input validation, utils.
 
-Benchmark mode reports disorder, the selected strategy and complexity, total
-operations, and counts for each operation type on standard error. The normal
-operation stream remains on standard output.
+## Resources
 
-### Measured Results
+- 42 subject PDF for `push_swap`
 
-> **Note:** the figures below were measured against the previous two-stack
-> min/max implementation of `simple_sort`. `simple_sort` was since replaced
-> by the chunk-based algorithm described above (previously prototyped as
-> `simple_sortv2`). Re-run the benchmark suite against the current build and
-> replace this table before submission.
+## AI usage
 
-| Input | Strategy | Min | Max | Average | Result |
-| --- | --- | ---: | ---: | ---: | --- |
-| 100 | Simple (chunk-based) | 611 | 689 | 654.61 | Good |
-| 100 | Medium | 819 | 893 | 858.99 | Good |
-| 100 | Complex | 1084 | 1084 | 1084.00 | Good |
-| 500 | Simple (chunk-based) | 5620 | 5993 | 5801.94 | Good |
-| 500 | Medium | 8686 | 9099 | 8908.49 | Pass |
-| 500 | Complex | 6784 | 6784 | 6784.00 | Good |
-
-All runs were verified with `checker_linux`. Adaptive-mode figures depend on
-which strategy each disordered input resolves to, and should be re-measured
-alongside the table above.
+- Helping to improve readability and language of README.
+- Helping to debug issues as well as check for edge cases in code.
