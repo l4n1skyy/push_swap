@@ -30,10 +30,9 @@ void	run_sort(t_node **head, int strategy, int benchmark)
 	int		used_strategy;
 
 	bench = (t_bench){0};
-	bench_ptr = NULL;
+	bench.print = 1;
+	bench_ptr = &bench;
 	disorder = compute_disorder(*head);
-	if (benchmark)
-		bench_ptr = &bench;
 	if (disorder != 0.0)
 		used_strategy = select_strategy(head, strategy, disorder, bench_ptr);
 	else

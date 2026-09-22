@@ -12,30 +12,31 @@
 
 #include "push_swap.h"
 
-static int	execute_operation(char *line, t_node **a, t_node **b)
+static int	execute_operation(char *line, t_node **a, t_node **b,
+		t_bench *bench)
 {
 	if (ft_strncmp(line, "sa\n", 3) == 0)
-		sa(a, NULL);
+		sa(a, bench);
 	else if (ft_strncmp(line, "sb\n", 3) == 0)
-		sb(b, NULL);
+		sb(b, bench);
 	else if (ft_strncmp(line, "ss\n", 3) == 0)
-		ss(a, b, NULL);
+		ss(a, b, bench);
 	else if (ft_strncmp(line, "pa\n", 3) == 0)
-		pa(b, a, NULL);
+		pa(b, a, bench);
 	else if (ft_strncmp(line, "pb\n", 3) == 0)
-		pb(a, b, NULL);
+		pb(a, b, bench);
 	else if (ft_strncmp(line, "ra\n", 3) == 0)
-		ra(a, NULL);
+		ra(a, bench);
 	else if (ft_strncmp(line, "rb\n", 3) == 0)
-		rb(b, NULL);
+		rb(b, bench);
 	else if (ft_strncmp(line, "rr\n", 3) == 0)
-		rr(a, b, NULL);
+		rr(a, b, bench);
 	else if (ft_strncmp(line, "rra\n", 4) == 0)
-		rra(a, NULL);
+		rra(a, bench);
 	else if (ft_strncmp(line, "rrb\n", 4) == 0)
-		rrb(b, NULL);
+		rrb(b, bench);
 	else if (ft_strncmp(line, "rrr\n", 4) == 0)
-		rrr(a, b, NULL);
+		rrr(a, b, bench);
 	else
 		return (0);
 	return (1);
@@ -56,6 +57,7 @@ int	main(int argc, char **argv)
 {
 	t_node	*a;
 	t_node	*b;
+	t_bench	bench;
 	char	*line;
 
 	if (argc < 2)
@@ -64,10 +66,11 @@ int	main(int argc, char **argv)
 	if (!a)
 		return (handle_error());
 	b = NULL;
+	bench = (t_bench){0};
 	line = get_next_line(0);
 	while (line)
 	{
-		if (!execute_operation(line, &a, &b))
+		if (!execute_operation(line, &a, &b, &bench))
 		{
 			free(line);
 			ft_llstclear(&a);

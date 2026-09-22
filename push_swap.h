@@ -36,6 +36,7 @@ typedef struct s_node
 /* benchmark struct */
 typedef struct s_bench
 {
+	int	print;
 	int	sa;
 	int	sb;
 	int	ss;

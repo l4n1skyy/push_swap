@@ -37,7 +37,8 @@ void	rra(t_node **a, t_bench *bench)
 	reverse_rotate(a);
 	if (bench)
 		bench->rra++;
-	write(1, "rra\n", 4);
+	if (bench && bench->print)
+		write(1, "rra\n", 4);
 }
 
 void	rrb(t_node **b, t_bench *bench)
@@ -47,7 +48,8 @@ void	rrb(t_node **b, t_bench *bench)
 	reverse_rotate(b);
 	if (bench)
 		bench->rrb++;
-	write(1, "rrb\n", 4);
+	if (bench && bench->print)
+		write(1, "rrb\n", 4);
 }
 
 void	rrr(t_node **a, t_node **b, t_bench *bench)
@@ -69,5 +71,6 @@ void	rrr(t_node **a, t_node **b, t_bench *bench)
 		return ;
 	if (bench)
 		bench->rrr++;
-	write(1, "rrr\n", 4);
+	if (bench && bench->print)
+		write(1, "rrr\n", 4);
 }

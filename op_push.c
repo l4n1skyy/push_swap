@@ -38,7 +38,8 @@ void	pa(t_node **b, t_node **a, t_bench *bench)
 	push_top(b, a);
 	if (bench)
 		bench->pa++;
-	write(1, "pa\n", 3);
+	if (bench && bench->print)
+		write(1, "pa\n", 3);
 }
 
 void	pb(t_node **a, t_node **b, t_bench *bench)
@@ -48,5 +49,6 @@ void	pb(t_node **a, t_node **b, t_bench *bench)
 	push_top(a, b);
 	if (bench)
 		bench->pb++;
-	write(1, "pb\n", 3);
+	if (bench && bench->print)
+		write(1, "pb\n", 3);
 }
